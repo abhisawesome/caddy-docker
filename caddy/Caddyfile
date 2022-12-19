@@ -1,0 +1,5 @@
+subdomain.domain.com {
+    reverse_proxy my_app:3001 {
+         header_down Strict-Transport-Security max-age=31536000;
+    }
+}

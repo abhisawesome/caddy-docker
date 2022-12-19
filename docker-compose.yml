@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+  my_app:
+    container_name: my_app
+    image: abhijithababhijith/getting-started-expressjs:latest
+    restart: always
+    environment:
+      - PORT=3001
+    ports:
+      - 3001:3001
+  my_caddy:
+    image: caddy:latest
+    restart: always
+    links:
+      - "my_app:my_app"
+    ports:
+      - "443:443"
+      - "80:80"
+      - "443:443/udp"
+    volumes:
+      - $PWD/caddy:/etc/caddy
+      - $PWD/site:/srv
+      - $PWD/caddy_data:/data
+      - $PWD/caddy_config:/config
+      - $PWD/ssl:/srv/ssl
+      - $PWD/caddy_cer:/root/.caddy
+    environment:
+      - ACME_AGREE=true
+# volumes:
+#   caddy_data:
+#   caddy_config:
